@@ -49,3 +49,45 @@ export const isExistFileSync = (file: string) => {
     if (err) return false
   }
 }
+
+/**
+ * 非同期にファイル作成を行なう
+ * @param rawdata ファイルに書き込むデータ
+ * @param file 書き込むファイルのパス
+ */
+export const writeFile = async (rawdata: string, file: string) => {
+  const encoder = new TextEncoder()
+  const data = encoder.encode(rawdata)
+  await Deno.writeFile(file, data)
+}
+
+/**
+ * 同期的にファイル作成を行なう
+ * @param rawdata ファイルに書き込むデータ
+ * @param file 書き込むファイルのパス
+ */
+export const writeFileSync = (rawdata: string, file: string) => {
+  const encoder = new TextEncoder()
+  const data = encoder.encode(rawdata)
+  Deno.writeFileSync(file, data)
+}
+
+/**
+ * 非同期にファイル読込を行なう
+ * @param file 読み込むファイルのパス
+ */
+export const readFile = async (file: string) => {
+  const decoder = new TextDecoder('utf-8')
+  const data = await Deno.readFile(file)
+  return decoder.decode(data)
+}
+
+/**
+ * 同期的にファイル読込を行なう
+ * @param file 読み込むファイルのパス
+ */
+export const readFileSync = (file: string) => {
+  const decoder = new TextDecoder('utf-8')
+  const data = Deno.readFileSync(file)
+  return decoder.decode(data)
+}
