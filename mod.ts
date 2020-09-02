@@ -91,3 +91,23 @@ export const readFileSync = (file: string) => {
   const data = Deno.readFileSync(file)
   return decoder.decode(data)
 }
+
+/**
+ * 日付に関するデータをObjectで返す  
+ * 曜日は日〜土の値で返ってくる
+ * @param date 任意の日付（ex. 2020/12/12）を指定し、なければ今日を使う
+ */
+export const readDate = (date: string) => {
+  const getDate = date ? new Date(date) : new Date()
+  const daysList: ('日' | '月' | '火' | '水' | '木' | '金' | '土')[] = ['日', '月', '火', '水', '木', '金', '土']
+  return {
+    year: getDate.getFullYear(),
+    month: getDate.getMonth() + 1,
+    date: getDate.getDate(),
+    days: daysList[getDate.getDay()],
+    hour: getDate.getHours(),
+    minute: getDate.getMinutes(),
+    second: getDate.getSeconds(),
+  }
+}
+
