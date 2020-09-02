@@ -111,3 +111,8 @@ export const readDate = (date: string) => {
   }
 }
 
+/**
+ * 任意の数字を文字に変換し、任意の桁数になるよう先頭に0を追加する
+ * @param num 変換したい数字
+ */
+export const zeroPadding = (num: number) => String(num).padStart(2, '0')
