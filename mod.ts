@@ -97,7 +97,7 @@ export const readFileSync = (file: string) => {
  * 曜日は日〜土の値で返ってくる
  * @param date 任意の日付（ex. 2020/12/12）を指定し、なければ今日を使う
  */
-export const readDate = (date: string) => {
+export const readDate = (date?: string) => {
   const getDate = date ? new Date(date) : new Date()
   const daysList: ('日' | '月' | '火' | '水' | '木' | '金' | '土')[] = ['日', '月', '火', '水', '木', '金', '土']
   return {
