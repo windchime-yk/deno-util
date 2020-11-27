@@ -93,26 +93,30 @@ export const readFileSync = (file: string) => {
 }
 
 /**
- * 日付に関するデータをObjectで返す  
- * 曜日は日〜土の値で返ってくる
- * @param date 任意の日付（ex. 2020/12/12）を指定し、なければ今日を使う
- */
-export const readDate = (date?: string) => {
-  const getDate = date ? new Date(date) : new Date()
-  const daysList: ('日' | '月' | '火' | '水' | '木' | '金' | '土')[] = ['日', '月', '火', '水', '木', '金', '土']
-  return {
-    year: getDate.getFullYear(),
-    month: getDate.getMonth() + 1,
-    date: getDate.getDate(),
-    days: daysList[getDate.getDay()],
-    hour: getDate.getHours(),
-    minute: getDate.getMinutes(),
-    second: getDate.getSeconds(),
-  }
-}
-
-/**
  * 任意の数字を文字に変換し、任意の桁数になるよう先頭に0を追加する
  * @param num 変換したい数字
  */
 export const zeroPadding = (num: number) => String(num).padStart(2, '0')
+
+/**
+ * 日付に関するデータをObjectで返す  
+ * 曜日は日〜土の値で返ってくる
+ * @param date 任意の日付（ex. 2020/12/12）を指定し、なければ今日を使う
+ * @param zeropadding ゼロ詰めするかどうか
+ */
+export const readDate = ({date, zeropadding}: {date?: string, zeropadding?: boolean}) => {
+  const getDate = date ? new Date(date) : new Date()
+  const daysList: ('日' | '月' | '火' | '水' | '木' | '金' | '土')[] = ['日', '月', '火', '水', '木', '金', '土']
+  const formatDate = (datetime: number) => {
+    return zeropadding ? zeroPadding(datetime) : datetime
+  }
+  return {
+    year: formatDate(getDate.getFullYear()),
+    month: formatDate(getDate.getMonth() + 1),
+    date: formatDate(getDate.getDate()),
+    days: daysList[getDate.getDay()],
+    hour: formatDate(getDate.getHours()),
+    minute: formatDate(getDate.getMinutes()),
+    second: formatDate(getDate.getSeconds()),
+  }
+}
