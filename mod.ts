@@ -104,7 +104,9 @@ interface ReadDate {
 }
 
 /**
- * 日付に関するデータをObjectで返す  
+ * 日付に関するデータをObjectで返す
+ * 
+ * 日付はデフォルトではnumber、ゼロ詰めするとstringになる  
  * 曜日は日〜土の値で返ってくる
  * @param options.date 任意の日付（ex. 2020/12/12）を指定し、なければ今日を使う
  * @param options.zeropadding ゼロ詰めするかどうか
