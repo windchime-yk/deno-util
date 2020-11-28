@@ -3,7 +3,8 @@
  * @param arr Objectの配列
  * @param key 配列として取得したいkey
  */
-export const extractObjectValue = <T>(arr: T[], key: keyof T) => arr.map(item => item[key])
+export const extractObjectValue = <T>(arr: T[], key: keyof T) =>
+  arr.map((item) => item[key]);
 
 /**
  * Objectの配列から、特定のkeyをキーワードにObjectを絞り込む
@@ -11,18 +12,27 @@ export const extractObjectValue = <T>(arr: T[], key: keyof T) => arr.map(item =>
  * @param target 対象となるkey
  * @param keyword 絞り込む条件
  */
-export const narrowdownArrayObject = <T>(array: T[], target: keyof T, keyword: T[keyof T]) => 
-  array.filter(object => object[target] === keyword)
+export const narrowdownArrayObject = <T>(
+  array: T[],
+  target: keyof T,
+  keyword: T[keyof T],
+) => array.filter((object) => object[target] === keyword);
 
 /**
  * カクヨムの独自タグ（|《》や《《》》）を対応するタグに変換する
  * @param str 変換したい文字列
  * @param [prefix="util"] class属性の最初につける文字（ex. ns → class="ns-ruby"）
  */
-export const kakuyomuOriginalTagConvert = (str: string, prefix: string = 'util') => {
-  const converted = str.replace(/[|｜](.+?)《(.+?)》/g, `<ruby class="${prefix}-ruby">$1<rt>$2</rt></ruby>`).replace(/《《(.+?)》》/g, `<strong class="${prefix}-emphasis">$1</strong>`)
-  return converted
-}
+export const kakuyomuOriginalTagConvert = (
+  str: string,
+  prefix: string = "util",
+) => {
+  const converted = str.replace(
+    /[|｜](.+?)《(.+?)》/g,
+    `<ruby class="${prefix}-ruby">$1<rt>$2</rt></ruby>`,
+  ).replace(/《《(.+?)》》/g, `<strong class="${prefix}-emphasis">$1</strong>`);
+  return converted;
+};
 
 /**
  * 非同期にファイルの存在確認を行なう
@@ -30,12 +40,12 @@ export const kakuyomuOriginalTagConvert = (str: string, prefix: string = 'util')
  */
 export const isExistFile = async (file: string) => {
   try {
-    await Deno.stat(file)
-    return true
+    await Deno.stat(file);
+    return true;
   } catch (err) {
-    if (err) return false
+    if (err) return false;
   }
-}
+};
 
 /**
  * 同期的にファイルの存在確認を行なう
@@ -43,12 +53,12 @@ export const isExistFile = async (file: string) => {
  */
 export const isExistFileSync = (file: string) => {
   try {
-    Deno.statSync(file)
-    return true
+    Deno.statSync(file);
+    return true;
   } catch (err) {
-    if (err) return false
+    if (err) return false;
   }
-}
+};
 
 /**
  * 非同期にファイル作成を行なう
@@ -56,10 +66,10 @@ export const isExistFileSync = (file: string) => {
  * @param file 書き込むファイルのパス
  */
 export const writeFile = async (rawdata: string, file: string) => {
-  const encoder = new TextEncoder()
-  const data = encoder.encode(rawdata)
-  await Deno.writeFile(file, data)
-}
+  const encoder = new TextEncoder();
+  const data = encoder.encode(rawdata);
+  await Deno.writeFile(file, data);
+};
 
 /**
  * 同期的にファイル作成を行なう
@@ -67,40 +77,40 @@ export const writeFile = async (rawdata: string, file: string) => {
  * @param file 書き込むファイルのパス
  */
 export const writeFileSync = (rawdata: string, file: string) => {
-  const encoder = new TextEncoder()
-  const data = encoder.encode(rawdata)
-  Deno.writeFileSync(file, data)
-}
+  const encoder = new TextEncoder();
+  const data = encoder.encode(rawdata);
+  Deno.writeFileSync(file, data);
+};
 
 /**
  * 非同期にファイル読込を行なう
  * @param file 読み込むファイルのパス
  */
 export const readFile = async (file: string) => {
-  const decoder = new TextDecoder('utf-8')
-  const data = await Deno.readFile(file)
-  return decoder.decode(data)
-}
+  const decoder = new TextDecoder("utf-8");
+  const data = await Deno.readFile(file);
+  return decoder.decode(data);
+};
 
 /**
  * 同期的にファイル読込を行なう
  * @param file 読み込むファイルのパス
  */
 export const readFileSync = (file: string) => {
-  const decoder = new TextDecoder('utf-8')
-  const data = Deno.readFileSync(file)
-  return decoder.decode(data)
-}
+  const decoder = new TextDecoder("utf-8");
+  const data = Deno.readFileSync(file);
+  return decoder.decode(data);
+};
 
 /**
  * 任意の数字を文字に変換し、任意の桁数になるよう先頭に0を追加する
  * @param num 変換したい数字
  */
-export const zeroPadding = (num: number) => String(num).padStart(2, '0')
+export const zeroPadding = (num: number) => String(num).padStart(2, "0");
 
 interface ReadDate {
-  date?: string,
-  zeropadding?: boolean
+  date?: string;
+  zeropadding?: boolean;
 }
 
 /**
@@ -112,11 +122,19 @@ interface ReadDate {
  * @param options.zeropadding ゼロ詰めするかどうか
  */
 export const readDate = (options?: ReadDate) => {
-  const getDate = options?.date ? new Date(options.date) : new Date()
-  const daysList: ('日' | '月' | '火' | '水' | '木' | '金' | '土')[] = ['日', '月', '火', '水', '木', '金', '土']
+  const getDate = options?.date ? new Date(options.date) : new Date();
+  const daysList: ("日" | "月" | "火" | "水" | "木" | "金" | "土")[] = [
+    "日",
+    "月",
+    "火",
+    "水",
+    "木",
+    "金",
+    "土",
+  ];
   const formatDate = (datetime: number) => {
-    return options?.zeropadding ? zeroPadding(datetime) : datetime
-  }
+    return options?.zeropadding ? zeroPadding(datetime) : datetime;
+  };
   return {
     year: formatDate(getDate.getFullYear()),
     month: formatDate(getDate.getMonth() + 1),
@@ -125,12 +143,12 @@ export const readDate = (options?: ReadDate) => {
     hour: formatDate(getDate.getHours()),
     minute: formatDate(getDate.getMinutes()),
     second: formatDate(getDate.getSeconds()),
-  }
-}
+  };
+};
 
 interface TypedFetchOptions extends RequestInit {
-  url: string,
-  wanttype: 'json' | 'text' | 'arrayBuffer'
+  url: string;
+  wanttype: "json" | "text" | "arrayBuffer";
 }
 
 /**
@@ -167,12 +185,13 @@ export const typedFetch = async <T>(options: TypedFetchOptions): Promise<T> => {
     referrerPolicy: options.referrerPolicy,
     signal: options.signal,
     window: options.window,
-  })
+  });
 
-  let data: T
-  if (options.wanttype === 'json') data = await res.json()
-  else if (options.wanttype === 'arrayBuffer') data = await res.arrayBuffer() as any
-  else data = await res.text() as any
+  let data: T;
+  if (options.wanttype === "json") data = await res.json();
+  else if (options.wanttype === "arrayBuffer") {
+    data = await res.arrayBuffer() as any;
+  } else data = await res.text() as any;
 
-  return data
-}
+  return data;
+};
