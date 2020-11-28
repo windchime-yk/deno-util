@@ -127,3 +127,52 @@ export const readDate = (options?: ReadDate) => {
     second: formatDate(getDate.getSeconds()),
   }
 }
+
+interface TypedFetchOptions extends RequestInit {
+  url: string,
+  wanttype: 'json' | 'text' | 'arrayBuffer'
+}
+
+/**
+ * 型定義できるFetch APIラッパー試製版
+ * 
+ * @param options.url 取得対象のURL
+ * @param options.wanttype 取得したいデータ形式
+ * @param options.method HTTPメソッド（今のところGETしか使えないと思う）
+ * @param options.mode
+ * @param options.headers
+ * @param options.body
+ * @param options.cache
+ * @param options.credentials
+ * @param options.keepalive
+ * @param options.integrity
+ * @param options.redirect
+ * @param options.referrer
+ * @param options.referrerPolicy
+ * @param options.signal
+ * @param options.window
+ */
+export const typedFetch = async <T>(options: TypedFetchOptions): Promise<T> => {
+  const res = await fetch(options.url, {
+    mode: options.mode,
+    method: options.method,
+    headers: options.headers,
+    body: options.body,
+    cache: options.cache,
+    credentials: options.credentials,
+    keepalive: options.keepalive,
+    integrity: options.integrity,
+    redirect: options.redirect,
+    referrer: options.referrer,
+    referrerPolicy: options.referrerPolicy,
+    signal: options.signal,
+    window: options.window,
+  })
+
+  let data: T
+  if (options.wanttype === 'json') data = await res.json()
+  else if (options.wanttype === 'arrayBuffer') data = await res.arrayBuffer() as any
+  else data = await res.text() as any
+
+  return data
+}
