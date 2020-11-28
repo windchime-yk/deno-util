@@ -132,9 +132,9 @@ export const readDate = (options?: ReadDate) => {
     "金",
     "土",
   ];
-  const formatDate = (datetime: number) => {
-    return options?.zeropadding ? zeroPadding(datetime) : datetime;
-  };
+  const formatDate = (datetime: number) =>
+    options?.zeropadding ? zeroPadding(datetime) : datetime;
+
   return {
     year: formatDate(getDate.getFullYear()),
     month: formatDate(getDate.getMonth() + 1),
