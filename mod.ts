@@ -108,11 +108,20 @@ export const readFileSync = (file: string) => {
  */
 export const zeroPadding = (num: number) => String(num).padStart(2, "0");
 
-interface ReadDate {
+interface ReadDateOptions {
   date?: string;
   zeropadding?: boolean;
 }
-
+type Days = "日" | "月" | "火" | "水" | "木" | "金" | "土";
+interface ReadDateReturnType {
+  year: number | string
+  month: number | string
+  date: number | string
+  days: Days
+  hour: number | string
+  minute: number | string
+  second: number | string
+}
 /**
  * 日付に関するデータをObjectで返す
  * 
@@ -121,18 +130,10 @@ interface ReadDate {
  * @param options.date 任意の日付（ex. 2020/12/12）を指定し、なければ今日を使う
  * @param options.zeropadding ゼロ詰めするかどうか
  */
-export const readDate = (options?: ReadDate) => {
+export const readDate = (options?: ReadDateOptions): ReadDateReturnType => {
   const getDate = options?.date ? new Date(options.date) : new Date();
-  const daysList: ("日" | "月" | "火" | "水" | "木" | "金" | "土")[] = [
-    "日",
-    "月",
-    "火",
-    "水",
-    "木",
-    "金",
-    "土",
-  ];
-  const formatDate = (datetime: number) =>
+  const daysList: Days[] = ["日", "月", "火", "水", "木", "金", "土"];
+  const formatDate = (datetime: number): number | string =>
     options?.zeropadding ? zeroPadding(datetime) : datetime;
 
   return {
