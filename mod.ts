@@ -15,7 +15,7 @@ export const extractObjectValue = <T>(arr: T[], key: keyof T): T[keyof T][] =>
 export const narrowdownArrayObject = <T>(
   array: T[],
   target: keyof T,
-  keyword: T[keyof T]
+  keyword: T[keyof T],
 ): T[] => array.filter((object) => object[target] === keyword);
 
 /**
@@ -30,11 +30,11 @@ export const kakuyomuOriginalTagConvert = (
   const converted = str
     .replace(
       /[|｜](.+?)《(.+?)》/g,
-      `<ruby class="${prefix}-ruby">$1<rt>$2</rt></ruby>`
+      `<ruby class="${prefix}-ruby">$1<rt>$2</rt></ruby>`,
     )
     .replace(
       /《《(.+?)》》/g,
-      `<strong class="${prefix}-emphasis">$1</strong>`
+      `<strong class="${prefix}-emphasis">$1</strong>`,
     );
   return converted;
 };
@@ -44,7 +44,7 @@ export const kakuyomuOriginalTagConvert = (
  * @param file ファイルのパス
  */
 export const isExistFile = async (
-  file: string
+  file: string,
 ): Promise<boolean | undefined> => {
   try {
     await Deno.stat(file);
@@ -74,7 +74,7 @@ export const isExistFileSync = (file: string): boolean | undefined => {
  */
 export const writeFile = async (
   rawdata: string,
-  file: string
+  file: string,
 ): Promise<void> => {
   const encoder = new TextEncoder();
   const data = encoder.encode(rawdata);
@@ -183,7 +183,7 @@ interface TypedFetchOptions extends RequestInit {
  * @param options.window
  */
 export const typedFetch = async <T>(
-  options: TypedFetchOptions
+  options: TypedFetchOptions,
 ): Promise<string | T | ArrayBuffer> => {
   const res = await fetch(options.url, {
     mode: options.mode,
