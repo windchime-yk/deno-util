@@ -114,13 +114,13 @@ interface ReadDateOptions {
 }
 type Days = "日" | "月" | "火" | "水" | "木" | "金" | "土";
 interface ReadDateReturnType {
-  year: number | string
-  month: number | string
-  date: number | string
-  days: Days
-  hour: number | string
-  minute: number | string
-  second: number | string
+  year: number | string;
+  month: number | string;
+  date: number | string;
+  days: Days;
+  hour: number | string;
+  minute: number | string;
+  second: number | string;
 }
 /**
  * 日付に関するデータをObjectで返す
