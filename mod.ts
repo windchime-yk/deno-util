@@ -25,7 +25,7 @@ export const narrowdownArrayObject = <T>(
  */
 export const kakuyomuOriginalTagConvert = (
   str: string,
-  prefix: string = "util"
+  prefix = "util",
 ): string => {
   const converted = str
     .replace(
