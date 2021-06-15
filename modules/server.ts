@@ -86,4 +86,4 @@ export const statusCode = {
 
 export type StatusCode = typeof statusCode;
 
-export type StatusCodeNumber = StatusCode[keyof StatusCode]
+export type StatusCodeNumber = StatusCode[keyof StatusCode];
