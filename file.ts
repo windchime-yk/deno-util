@@ -1,4 +1,4 @@
-import { join, extname } from "path";
+import { extname, join } from "path";
 
 /**
  * 非同期にファイルの存在確認を行なう
@@ -125,11 +125,9 @@ export const typedFetch = async <T>(
   return data;
 };
 
-
-
 interface TreeEntry extends Deno.DirEntry {
   path: string;
-  ext: string
+  ext: string;
 }
 
 /**
@@ -138,20 +136,24 @@ interface TreeEntry extends Deno.DirEntry {
  */
 export const getFileList = async (root: string): Promise<TreeEntry[]> => {
   // 再帰的なMarkdownファイル読み込み
-  const entries: TreeEntry[] = []
+  const entries: TreeEntry[] = [];
 
   const tree = async (root: string): Promise<TreeEntry[]> => {
     for await (const dirEntry of Deno.readDir(root)) {
-      const rootFilePath = join(root, dirEntry.name)
-      const entry: TreeEntry = {...dirEntry, path: rootFilePath, ext: extname(rootFilePath)}
+      const rootFilePath = join(root, dirEntry.name);
+      const entry: TreeEntry = {
+        ...dirEntry,
+        path: rootFilePath,
+        ext: extname(rootFilePath),
+      };
       if (entry.isFile) {
-        entries.push(entry)
+        entries.push(entry);
       } else {
-        await tree(entry.path)
+        await tree(entry.path);
       }
     }
-    return entries
-  }
+    return entries;
+  };
 
-  return await tree(root)
-}
+  return await tree(root);
+};
