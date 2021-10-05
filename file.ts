@@ -1,4 +1,4 @@
-import { join, extname } from "https://deno.land/std@0.108.0/path/mod.ts";
+import { join, extname } from "path";
 
 /**
  * 非同期にファイルの存在確認を行なう
