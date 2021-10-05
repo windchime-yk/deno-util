@@ -1,3 +1,5 @@
+import { join, extname } from "https://deno.land/std@0.108.0/path/mod.ts";
+
 /**
  * 非同期にファイルの存在確認を行なう
  * @param file ファイルのパス
@@ -122,3 +124,34 @@ export const typedFetch = async <T>(
 
   return data;
 };
+
+
+
+interface TreeEntry extends Deno.DirEntry {
+  path: string;
+  ext: string
+}
+
+/**
+ * 非同期的に引数ディレクトリからのすべてのファイルをリスト化する
+ * @param root 読み込むディレクトリのパス
+ */
+export const getFileList = async (root: string): Promise<TreeEntry[]> => {
+  // 再帰的なMarkdownファイル読み込み
+  const entries: TreeEntry[] = []
+
+  const tree = async (root: string): Promise<TreeEntry[]> => {
+    for await (const dirEntry of Deno.readDir(root)) {
+      const rootFilePath = join(root, dirEntry.name)
+      const entry: TreeEntry = {...dirEntry, path: rootFilePath, ext: extname(rootFilePath)}
+      if (entry.isFile) {
+        entries.push(entry)
+      } else {
+        await tree(entry.path)
+      }
+    }
+    return entries
+  }
+
+  return await tree(root)
+}
