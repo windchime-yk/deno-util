@@ -125,7 +125,7 @@ export const typedFetch = async <T>(
   return data;
 };
 
-interface TreeEntry extends Deno.DirEntry {
+export interface TreeEntry extends Deno.DirEntry {
   path: string;
   ext: string;
 }
