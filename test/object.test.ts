@@ -1,10 +1,10 @@
-import { assertEquals } from 'asserts';
-import { extractObjectValue,narrowdownArrayObject } from '../object.ts';
+import { assertEquals } from "asserts";
+import { extractObjectValue, narrowdownArrayObject } from "../object.ts";
 
 interface SampleObject {
-  text: string
-  num: number
-  bool: boolean
+  text: string;
+  num: number;
+  bool: boolean;
 }
 
 const sampleObject: SampleObject[] = [
@@ -23,15 +23,19 @@ const sampleObject: SampleObject[] = [
     "num": 2,
     "bool": false,
   },
-]
+];
 
 Deno.test("extractObjectValue", () => {
-  const testVal = extractObjectValue<SampleObject>(sampleObject, 'bool')
-  assertEquals<(string | number | boolean)[]>(testVal, [false, true, false])
-})
+  const testVal = extractObjectValue<SampleObject>(sampleObject, "bool");
+  assertEquals<(string | number | boolean)[]>(testVal, [false, true, false]);
+});
 
 Deno.test("narrowdownArrayObject", () => {
-  const testVal = narrowdownArrayObject<SampleObject>(sampleObject, 'bool', false)
+  const testVal = narrowdownArrayObject<SampleObject>(
+    sampleObject,
+    "bool",
+    false,
+  );
   assertEquals<SampleObject[]>(testVal, [
     {
       "text": "あああああ",
@@ -43,7 +47,5 @@ Deno.test("narrowdownArrayObject", () => {
       "num": 2,
       "bool": false,
     },
-  ])
-})
-
-
+  ]);
+});
