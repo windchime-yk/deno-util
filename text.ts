@@ -23,14 +23,14 @@ export const kakuyomuOriginalTagConvert = (
  * 任意の数字を文字に変換し、任意の桁数になるよう先頭に0を追加する
  * @param num 変換したい数字
  */
-export const zeroPadding = (num: number): string =>
-  String(num).padStart(2, "0");
+export const zeroPadding = (num: number, digit: number): string =>
+  String(num).padStart(digit, "0");
 
 interface ReadDateOptions {
   date?: string;
   zeropadding?: boolean;
 }
-type Days = "日" | "月" | "火" | "水" | "木" | "金" | "土";
+export type Days = "日" | "月" | "火" | "水" | "木" | "金" | "土";
 interface ReadDateReturnType {
   year: number | string;
   month: number | string;
@@ -52,7 +52,7 @@ export const readDate = (options?: ReadDateOptions): ReadDateReturnType => {
   const getDate = options?.date ? new Date(options.date) : new Date();
   const daysList: Days[] = ["日", "月", "火", "水", "木", "金", "土"];
   const formatDate = (datetime: number): number | string =>
-    options?.zeropadding ? zeroPadding(datetime) : datetime;
+    options?.zeropadding ? zeroPadding(datetime, 2) : datetime;
 
   return {
     year: formatDate(getDate.getFullYear()),
