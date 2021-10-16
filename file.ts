@@ -152,7 +152,7 @@ export const getFileList = async (root: string): Promise<TreeEntry[]> => {
         await tree(entry.path);
       }
     }
-    return entries;
+    return entries.sort((a, b) => a.path < b.path ? -1 : 1);
   };
 
   return await tree(root);

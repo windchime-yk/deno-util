@@ -4,13 +4,13 @@ import {
   isExistFileSync,
   readFile,
   readFileSync,
-  TreeEntry,
   typedFetch,
   writeFile,
   writeFileSync,
 } from "../file.ts";
 import { join, resolve } from "path";
 import { assertEquals } from "asserts";
+import { extractObjectValue } from "../object.ts";
 
 const currentDir = resolve(Deno.cwd(), ".");
 
@@ -83,67 +83,10 @@ Deno.test("typedFetch", async () => {
 });
 
 Deno.test("getFileList", async () => {
-  const testVal = await getFileList(join(currentDir, "test"));
-  assertEquals<TreeEntry[]>(testVal, [
-    {
-      name: "text.test.ts",
-      isFile: true,
-      isDirectory: false,
-      isSymlink: false,
-      path: "/Users/windchime-yk/Documents/web/deno-util/test/text.test.ts",
-      ext: ".ts",
-    },
-    {
-      name: "file.test.ts",
-      isFile: true,
-      isDirectory: false,
-      isSymlink: false,
-      path: "/Users/windchime-yk/Documents/web/deno-util/test/file.test.ts",
-      ext: ".ts",
-    },
-    {
-      name: "file3.txt",
-      isFile: true,
-      isDirectory: false,
-      isSymlink: false,
-      path:
-        "/Users/windchime-yk/Documents/web/deno-util/test/folders/file3.txt",
-      ext: ".txt",
-    },
-    {
-      name: "file1.txt",
-      isFile: true,
-      isDirectory: false,
-      isSymlink: false,
-      path:
-        "/Users/windchime-yk/Documents/web/deno-util/test/folders/file1.txt",
-      ext: ".txt",
-    },
-    {
-      name: "file3.txt",
-      isFile: true,
-      isDirectory: false,
-      isSymlink: false,
-      path:
-        "/Users/windchime-yk/Documents/web/deno-util/test/folders/file3.txt",
-      ext: ".txt",
-    },
-    {
-      name: "file2.txt",
-      isFile: true,
-      isDirectory: false,
-      isSymlink: false,
-      path:
-        "/Users/windchime-yk/Documents/web/deno-util/test/folders/folder/file2.txt",
-      ext: ".txt",
-    },
-    {
-      name: "object.test.ts",
-      isFile: true,
-      isDirectory: false,
-      isSymlink: false,
-      path: "/Users/windchime-yk/Documents/web/deno-util/test/object.test.ts",
-      ext: ".ts",
-    },
+  const testVal = await getFileList(join(currentDir, "test", "folders"));
+  assertEquals<(string | boolean)[]>(extractObjectValue(testVal, "name"), [
+    "file1.txt",
+    "file3.txt",
+    "file2.txt",
   ]);
 });
