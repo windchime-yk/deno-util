@@ -18,3 +18,5 @@ jobs:
         run: deno lint
       - name: Format Check
         run: deno fmt --check --ignore=README.md,./.github/
+      - name: Test
+        run: deno test --allow-read --allow-write --allow-net --import-map=import_map.json
