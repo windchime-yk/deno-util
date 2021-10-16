@@ -4,4 +4,4 @@ scripts:
     cmd: deno fmt --ignore=README.md,./.github/,.vscode/
   test:
     desc: Testing util code 
-    cmd: deno test
+    cmd: deno test --allow-read --allow-write --allow-net --import-map=import_map.json
