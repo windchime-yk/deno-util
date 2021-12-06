@@ -1,6 +1,0 @@
-{
-  "imports": {
-    "path": "https://deno.land/std@0.108.0/path/mod.ts",
-    "asserts": "https://deno.land/std@0.110.0/testing/asserts.ts"
-  }
-}
