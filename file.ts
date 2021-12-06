@@ -1,4 +1,4 @@
-import { extname, join } from "path";
+import { extname, join } from "./deps.ts";
 
 /**
  * 非同期にファイルの存在確認を行なう

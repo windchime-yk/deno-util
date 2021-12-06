@@ -1,4 +1,4 @@
-import { assertEquals } from "asserts";
+import { assertEquals } from "../deps.ts";
 import { extractObjectValue, narrowdownArrayObject } from "../object.ts";
 
 interface SampleObject {

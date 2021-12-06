@@ -8,8 +8,7 @@ import {
   writeFile,
   writeFileSync,
 } from "../file.ts";
-import { join, resolve } from "path";
-import { assertEquals } from "asserts";
+import { assertEquals, join, resolve } from "../deps.ts";
 import { extractObjectValue } from "../object.ts";
 
 const currentDir = resolve(Deno.cwd(), ".");

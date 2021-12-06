@@ -1,4 +1,4 @@
-import { assertEquals } from "asserts";
+import { assertEquals } from "../deps.ts";
 import { TEXT } from "./worker.ts";
 
 new Worker(new URL("./worker.ts", import.meta.url).href, {
