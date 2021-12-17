@@ -87,25 +87,3 @@ export const statusCode = {
 export type StatusCode = typeof statusCode;
 
 export type StatusCodeNumber = StatusCode[keyof StatusCode];
-
-export interface SimpleServer {
-  port?: number;
-  response: Response;
-}
-
-export const simpleServer = async ({ port = 8080, response }: SimpleServer) => {
-  const server = Deno.listen({ port });
-  console.log(`launched http://localhost:${port}`);
-
-  const handleConn = async (conn: Deno.Conn) => {
-    const httpConn = Deno.serveHttp(conn);
-
-    for await (const e of httpConn) {
-      e.respondWith(response);
-    }
-  };
-
-  for await (const conn of server) {
-    handleConn(conn);
-  }
-};
