@@ -37,3 +37,16 @@ https://pax.deno.dev/windchime-yk/deno-util@v1.0.0/server.ts
 ```
 https://pax.deno.dev/windchime-yk/deno-util@v1.0.0/text.ts
 ```
+
+## CLIについて
+Deno Deployだと対話的スクリプトを拾ってデプロイが停止してしまうため、Denoのスクリプトをここに仮置きする。
+
+``` bash
+deno install -n deno-util --allow-read --allow-write https://pax.deno.dev/windchime-yk/deno-util@v1.0.0/cli.ts
+```
+
+### Denoばた会議 Monthlyレポートテンプレート出力
+開催回数、開催日、Connpassリンクを対話的に取得してテンプレートを生成する。
+```
+deno-util dcr
+```
