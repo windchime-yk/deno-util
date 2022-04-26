@@ -1,5 +1,5 @@
 import { assertEquals } from "../deps.ts";
-import { extractObjectValue, narrowdownArrayObject } from "../object.ts";
+import { extractObjectValue, narrowdownArrayObject, typedJsonParse } from "../object.ts";
 
 interface SampleObject {
   text: string;
@@ -49,3 +49,8 @@ Deno.test("narrowdownArrayObject", () => {
     },
   ]);
 });
+
+Deno.test("typedJsonParse", () => {
+  const testVal = typedJsonParse<SampleObject[]>(JSON.stringify(sampleObject))
+  assertEquals<SampleObject[]>(testVal, sampleObject)
+})
