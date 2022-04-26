@@ -16,3 +16,5 @@ export const narrowdownArrayObject = <T>(
   target: keyof T,
   keyword: T[keyof T],
 ): T[] => array.filter((object) => object[target] === keyword);
+
+export const typedJsonParse = <T = Record<never, never>>(text: string): T => JSON.parse(text)
