@@ -1,4 +1,4 @@
-import { extname, join } from "./deps.ts";
+import { encoding, extname, join } from "./deps.ts";
 
 /**
  * 非同期にファイルの存在確認を行なう
@@ -36,9 +36,16 @@ export const isExistFileSync = (file: string): boolean | undefined => {
 export const writeFile = async (
   rawdata: string,
   file: string,
+  encode: "UTF8" | "UTF16" | "UTF16BE" | "UTF16LE" | "EUCJP" | "JIS" | "SJIS" =
+    "UTF8",
 ): Promise<void> => {
   const encoder = new TextEncoder();
-  const data = encoder.encode(rawdata);
+  let data = encoder.encode(rawdata);
+  if (encode !== "UTF8") {
+    data = Uint8Array.from(
+      encoding.convert(data, { from: "UTF8", to: encode }),
+    );
+  }
   await Deno.writeFile(file, data);
 };
 
@@ -47,9 +54,19 @@ export const writeFile = async (
  * @param rawdata ファイルに書き込むデータ
  * @param file 書き込むファイルのパス
  */
-export const writeFileSync = (rawdata: string, file: string): void => {
+export const writeFileSync = (
+  rawdata: string,
+  file: string,
+  encode: "UTF8" | "UTF16" | "UTF16BE" | "UTF16LE" | "EUCJP" | "JIS" | "SJIS" =
+    "UTF8",
+): void => {
   const encoder = new TextEncoder();
-  const data = encoder.encode(rawdata);
+  let data = encoder.encode(rawdata);
+  if (encode !== "UTF8") {
+    data = Uint8Array.from(
+      encoding.convert(data, { from: "UTF8", to: encode }),
+    );
+  }
   Deno.writeFileSync(file, data);
 };
 

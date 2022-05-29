@@ -1,7 +1,0 @@
-scripts:
-  fmt:
-    desc: Format code
-    cmd: deno fmt --ignore=README.md,./.github/,.vscode/
-  test:
-    desc: Testing util code 
-    cmd: deno test --allow-read --allow-write --allow-net
