@@ -34,9 +34,23 @@ Deno.test("writeFile", async () => {
   assertEquals<string>(testVal, "aiueo");
 });
 
+Deno.test("writeFile(SJIS)", async () => {
+  const filename = join(currentDir, "test/folders/file3.txt");
+  await writeFile("aiueo", filename, "SJIS");
+  const testVal = await readFile(filename);
+  assertEquals<string>(testVal, "aiueo");
+});
+
 Deno.test("writeFileSync", () => {
   const filename = join(currentDir, "test/folders/file3.txt");
   writeFileSync("aiueo", filename);
+  const testVal = readFileSync(filename);
+  assertEquals<string>(testVal, "aiueo");
+});
+
+Deno.test("writeFileSync(SJIS)", () => {
+  const filename = join(currentDir, "test/folders/file3.txt");
+  writeFileSync("aiueo", filename, "SJIS");
   const testVal = readFileSync(filename);
   assertEquals<string>(testVal, "aiueo");
 });
