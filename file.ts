@@ -38,12 +38,13 @@ export const writeFile = async (
   file: string,
   encode: "UTF8" | "UTF16" | "UTF16BE" | "UTF16LE" | "EUCJP" | "JIS" | "SJIS" =
     "UTF8",
+  bom?: "LE" | boolean,
 ): Promise<void> => {
   const encoder = new TextEncoder();
   let data = encoder.encode(rawdata);
   if (encode !== "UTF8") {
     data = Uint8Array.from(
-      encoding.convert(data, { from: "UTF8", to: encode }),
+      encoding.convert(data, { from: "UTF8", to: encode, bom }),
     );
   }
   await Deno.writeFile(file, data);
@@ -59,12 +60,13 @@ export const writeFileSync = (
   file: string,
   encode: "UTF8" | "UTF16" | "UTF16BE" | "UTF16LE" | "EUCJP" | "JIS" | "SJIS" =
     "UTF8",
+  bom: "LE" | boolean = false,
 ): void => {
   const encoder = new TextEncoder();
   let data = encoder.encode(rawdata);
   if (encode !== "UTF8") {
     data = Uint8Array.from(
-      encoding.convert(data, { from: "UTF8", to: encode }),
+      encoding.convert(data, { from: "UTF8", to: encode, bom }),
     );
   }
   Deno.writeFileSync(file, data);
