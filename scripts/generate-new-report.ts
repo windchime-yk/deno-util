@@ -41,6 +41,8 @@ export const template = ({ count, datetime, link }: Answers) => {
   const { year, month, date } = readDate({ date: datetime });
   const convertNumber = (text: unknown) =>
     typeof text === "number" ? text : Number(text);
+  const convertZeropaddingDate = (date: string | number) =>
+    zeroPadding(convertNumber(date), 2);
 
   return `# Denoばた会議 Monthly 第${count}回
 ${year}年${month}月${date}日開催。  
@@ -51,11 +53,8 @@ Denoのアップデートを追っていくLT。
 そのあとの雑談込みでザックリと箇条書き。
 
 [@uki00aさんのスライド](https://uki00a.github.io/slides/denobata-${year}-${
-    zeroPadding(
-      convertNumber(month),
-      2,
-    )
-  }-${date})
+    convertZeropaddingDate(month)
+  }-${convertZeropaddingDate(date)})
 
 ## LT1
 
