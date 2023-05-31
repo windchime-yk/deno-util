@@ -7,7 +7,7 @@ import {
   writeFile,
   zeroPadding,
 } from "./deps.ts";
-import { Answers } from "./model.ts";
+import type { Answers, ConnpassEvent } from "./model.ts";
 
 export const answers = await Prompt.prompts<Answers>([
   {
@@ -25,50 +25,34 @@ export const answers = await Prompt.prompts<Answers>([
       }
     },
   },
-  {
-    type: "text",
-    name: "link",
-    message: "Connpassリンク",
-    validate(result: string) {
-      if (!/^http(s):\/\//.test(result)) {
-        throw new Error("URLを入力してください");
-      }
-    },
-  },
 ]);
 
-export const template = ({ count, datetime, link }: Answers) => {
+export const template = async ({ count, datetime }: Answers) => {
   const { year, month, date } = readDate({ date: datetime });
   const convertNumber = (text: unknown) =>
     typeof text === "number" ? text : Number(text);
   const convertZeropaddingDate = (date: string | number) =>
     zeroPadding(convertNumber(date), 2);
 
-  return `# Denoばた会議 Monthly 第${count}回
-${year}年${month}月${date}日開催。  
-[connpassリンク](${link})。
-
-## 今月のアップデートを追う
-Denoのアップデートを追っていくLT。  
-そのあとの雑談込みでザックリと箇条書き。
-
-[@uki00aさんのスライド](https://uki00a.github.io/slides/denobata-${year}-${
+  const title = `Denoばた会議 Monthly 第${count}回`;
+  const slideUrl = `https://uki00a.github.io/slides/denobata-${year}-${
     convertZeropaddingDate(month)
-  }-${convertZeropaddingDate(date)})
+  }-${convertZeropaddingDate(date)}`;
 
-## LT1
+  const templateData = await fetch(new URL("template.txt", import.meta.url));
+  const template = await templateData.text();
+  const eventData = await fetch(
+    `https://connpass.com/api/v1/event/?keyword=${encodeURIComponent(title)}`,
+  );
+  const connpassEvent: ConnpassEvent = await eventData.json();
 
-## LT2
-
-## アフタートーク
-
-## 参考資料
-上記をまとめる際に眺め、かつ箇条書きの中に含められなかった資料です。  
-名前だけ掠ってて関係ない資料もあるかと思いますが、まとめる作業の可視化として残しています。  
-読まなくて大丈夫です。
-
-- [example](https://example.com/)
-`;
+  return template
+    .replaceAll("{{title}}", title)
+    .replaceAll("{{year}}", year.toString())
+    .replaceAll("{{month}}", month.toString())
+    .replaceAll("{{date}}", date.toString())
+    .replaceAll("{{link}}", connpassEvent.events[0].event_url)
+    .replaceAll("{{slide_url}}", slideUrl);
 };
 
 export const generateNewReport = async (template: string, count: number) => {

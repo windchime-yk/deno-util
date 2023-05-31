@@ -1,6 +1,9 @@
 {
   "tasks": {
-    "fmt": "deno fmt --ignore=README.md,./.github/,.vscode/",
     "test": "deno test --allow-read --allow-write --allow-net"
+  },
+  "lock": false,
+  "fmt": {
+    "exclude": ["README.md", ".github/", ".vscode/"]
   }
 }
