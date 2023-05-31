@@ -8,7 +8,9 @@ import {
 
 Deno.test("kakuyomuOriginalTagConvert", async (t) => {
   await t.step("all", () => {
-    const testVal = kakuyomuOriginalTagConvert("<p>|卵《たまご》かけ《《ごはん》》</p>");
+    const testVal = kakuyomuOriginalTagConvert(
+      "<p>|卵《たまご》かけ《《ごはん》》</p>",
+    );
     assertEquals(
       testVal,
       '<p><ruby class="util-ruby">卵<rt>たまご</rt></ruby>かけ<strong class="util-emphasis">ごはん</strong></p>',
@@ -16,7 +18,9 @@ Deno.test("kakuyomuOriginalTagConvert", async (t) => {
   });
 
   await t.step("ruby", () => {
-    const testVal = kakuyomuOriginalTagConvert("<p>|卵《たまご》かけごはん</p>");
+    const testVal = kakuyomuOriginalTagConvert(
+      "<p>|卵《たまご》かけごはん</p>",
+    );
     assertEquals(
       testVal,
       '<p><ruby class="util-ruby">卵<rt>たまご</rt></ruby>かけごはん</p>',
