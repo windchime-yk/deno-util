@@ -7,7 +7,7 @@ import {
   writeFile,
   zeroPadding,
 } from "./deps.ts";
-import { Answers } from "./model.ts";
+import type { Answers, ConnpassEvent } from "./model.ts";
 
 export const answers = await Prompt.prompts<Answers>([
   {
@@ -25,36 +25,33 @@ export const answers = await Prompt.prompts<Answers>([
       }
     },
   },
-  {
-    type: "text",
-    name: "link",
-    message: "Connpassリンク",
-    validate(result: string) {
-      if (!/^http(s):\/\//.test(result)) {
-        throw new Error("URLを入力してください");
-      }
-    },
-  },
 ]);
 
-export const template = async ({ count, datetime, link }: Answers) => {
+export const template = async ({ count, datetime }: Answers) => {
   const { year, month, date } = readDate({ date: datetime });
   const convertNumber = (text: unknown) =>
     typeof text === "number" ? text : Number(text);
   const convertZeropaddingDate = (date: string | number) =>
     zeroPadding(convertNumber(date), 2);
+
+  const title = `Denoばた会議 Monthly 第${count}回`;
   const slideUrl = `https://uki00a.github.io/slides/denobata-${year}-${
     convertZeropaddingDate(month)
   }-${convertZeropaddingDate(date)}`;
-  const response = await fetch(new URL("template.txt", import.meta.url));
-  const template = await response.text();
+
+  const templateData = await fetch(new URL("template.txt", import.meta.url));
+  const template = await templateData.text();
+  const eventData = await fetch(
+    `https://connpass.com/api/v1/event/?keyword=${encodeURIComponent(title)}`,
+  );
+  const connpassEvent: ConnpassEvent = await eventData.json();
 
   return template
-    .replaceAll("{{count}}", count.toString())
+    .replaceAll("{{title}}", title)
     .replaceAll("{{year}}", year.toString())
     .replaceAll("{{month}}", month.toString())
     .replaceAll("{{date}}", date.toString())
-    .replaceAll("{{link}}", link)
+    .replaceAll("{{link}}", connpassEvent.events[0].event_url)
     .replaceAll("{{slide_url}}", slideUrl);
 };
 

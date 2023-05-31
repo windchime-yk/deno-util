@@ -1,4 +1,4 @@
-# Denoばた会議 Monthly 第{{count}}回
+# {{title}}
 {{year}}年{{month}}月{{date}}日開催。  
 [connpassリンク]({{link}})。
 
