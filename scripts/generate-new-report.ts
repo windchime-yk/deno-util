@@ -37,38 +37,25 @@ export const answers = await Prompt.prompts<Answers>([
   },
 ]);
 
-export const template = ({ count, datetime, link }: Answers) => {
+export const template = async ({ count, datetime, link }: Answers) => {
   const { year, month, date } = readDate({ date: datetime });
   const convertNumber = (text: unknown) =>
     typeof text === "number" ? text : Number(text);
   const convertZeropaddingDate = (date: string | number) =>
     zeroPadding(convertNumber(date), 2);
-
-  return `# Denoばた会議 Monthly 第${count}回
-${year}年${month}月${date}日開催。  
-[connpassリンク](${link})。
-
-## 今月のアップデートを追う
-Denoのアップデートを追っていくLT。  
-そのあとの雑談込みでザックリと箇条書き。
-
-[@uki00aさんのスライド](https://uki00a.github.io/slides/denobata-${year}-${
+  const slideUrl = `https://uki00a.github.io/slides/denobata-${year}-${
     convertZeropaddingDate(month)
-  }-${convertZeropaddingDate(date)})
+  }-${convertZeropaddingDate(date)}`;
+  const response = await fetch(new URL("template.txt", import.meta.url));
+  const template = await response.text();
 
-## LT1
-
-## LT2
-
-## アフタートーク
-
-## 参考資料
-上記をまとめる際に眺め、かつ箇条書きの中に含められなかった資料です。  
-名前だけ掠ってて関係ない資料もあるかと思いますが、まとめる作業の可視化として残しています。  
-読まなくて大丈夫です。
-
-- [example](https://example.com/)
-`;
+  return template
+    .replaceAll("{{count}}", count.toString())
+    .replaceAll("{{year}}", year.toString())
+    .replaceAll("{{month}}", month.toString())
+    .replaceAll("{{date}}", date.toString())
+    .replaceAll("{{link}}", link)
+    .replaceAll("{{slide_url}}", slideUrl);
 };
 
 export const generateNewReport = async (template: string, count: number) => {
