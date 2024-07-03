@@ -6,7 +6,7 @@ on:
 jobs:
   check:
     if: github.event.pull_request.merged == true
-    uses: windchime-yk/deno-util/.github/workflows/reuse_check.yml@publish-jsr
+    uses: windchime-yk/deno-util/.github/workflows/reuse_check.yml@main
   publish:
     runs-on: ubuntu-latest
     needs: [check]

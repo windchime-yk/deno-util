@@ -7,4 +7,4 @@ on:
 
 jobs:
   check:
-    uses: windchime-yk/deno-util/.github/workflows/reuse_check.yml@publish-jsr
+    uses: windchime-yk/deno-util/.github/workflows/reuse_check.yml@main
