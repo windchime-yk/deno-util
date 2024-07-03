@@ -1,6 +1,6 @@
 import { assertEquals } from "@std/assert";
 import {
-  Days,
+  type Days,
   kakuyomuOriginalTagConvert,
   readDate,
   zeroPadding,
