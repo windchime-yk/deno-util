@@ -1,4 +1,5 @@
-import { encoding, extname, join } from "./deps.ts";
+import { extname, join } from "@std/path";
+import encoding from "encoding-japanese";
 
 /**
  * 非同期にファイルの存在確認を行なう
@@ -66,7 +67,7 @@ export const writeFileSync = (
   let data = encoder.encode(rawdata);
   if (encode !== "UTF8") {
     data = Uint8Array.from(
-      encoding.convert(data, { from: "UTF8", to: encode, bom }),
+      data = encoding.convert(data, { from: "UTF8", to: encode, bom }),
     );
   }
   Deno.writeFileSync(file, data);
