@@ -1,6 +1,6 @@
 {
   "name": "@whyk/utils",
-  "version": "1.6.3",
+  "version": "1.7.0",
   "exports": {
     "./cli": "./cli.ts",
     "./file": "./file.ts",
