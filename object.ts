@@ -17,5 +17,9 @@ export const narrowdownArrayObject = <T>(
   keyword: T[keyof T],
 ): T[] => array.filter((object) => object[target] === keyword);
 
+/**
+ * 型定義できるJSON.parseラッパー
+ * @param text JSON文字列
+ */
 export const typedJsonParse = <T = Record<never, never>>(text: string): T =>
   JSON.parse(text);

@@ -30,6 +30,9 @@ interface ReadDateOptions {
   date?: string;
   zeropadding?: boolean;
 }
+/**
+ * 曜日
+ */
 export type Days = "日" | "月" | "火" | "水" | "木" | "金" | "土";
 interface ReadDateReturnType {
   year: number | string;
