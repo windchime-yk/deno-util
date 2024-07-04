@@ -76,6 +76,9 @@ const serverErrorCode = {
   networkAuthenticationRequired: 511,
 } as const;
 
+/**
+ * すべてのHTTPステータスコード
+ */
 export const statusCode = {
   ...serverErrorCode,
   ...clientErrorCode,
@@ -84,8 +87,14 @@ export const statusCode = {
   ...informationalCode,
 } as const;
 
+/**
+ * すべてのHTTPステータスコードの型定義
+ */
 export type StatusCode = typeof statusCode;
 
+/**
+ * HTTPステータスコードの値だけ抜き出した型定義
+ */
 export type StatusCodeNumber = StatusCode[keyof StatusCode];
 
 /** SVG固有の要素名定義マップ */
@@ -476,6 +485,9 @@ type Attribute = Record<string, string | number | boolean>;
 
 type Text = string;
 
+/**
+ * HTMLタグの型定義
+ */
 export type Tag = (
   tagName: HTMLElementTagNameMap,
   attributesOrFirstChild:

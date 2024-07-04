@@ -93,6 +93,9 @@ export const readFileSync = (file: string): string => {
   return decoder.decode(data);
 };
 
+/**
+ * Fetch APIラッパーのオプション
+ */
 interface TypedFetchOptions extends RequestInit {
   url: string;
   wanttype: "json" | "text" | "arrayBuffer";
@@ -145,6 +148,9 @@ export const typedFetch = async <T>(
   return data;
 };
 
+/**
+ * ディレクトリ情報の型定義
+ */
 export interface TreeEntry extends Deno.DirEntry {
   path: string;
   ext: string;
